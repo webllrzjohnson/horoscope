@@ -1,0 +1,39 @@
+// Prisma schema — Batch + Reading per docs/spec/horoscope-v1.md
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Batch {
+  id           String    @id @default(cuid())
+  windowStart  DateTime
+  windowEnd    DateTime
+  createdAt    DateTime  @default(now())
+  providerMeta Json?
+  readings     Reading[]
+
+  @@unique([windowStart])
+  @@index([windowStart(sort: Desc)])
+}
+
+model Reading {
+  id              String   @id @default(cuid())
+  batchId         String
+  batch           Batch    @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  sign            String
+  philosopher     String
+  body            String
+  luckyNumber     Int
+  luckyColorName  String
+  luckyColorHex   String
+  seedPhrases     Json
+  createdAt       DateTime @default(now())
+
+  @@unique([batchId, sign, philosopher])
+  @@index([batchId, sign])
+}
