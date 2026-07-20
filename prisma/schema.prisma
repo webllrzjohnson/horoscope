@@ -37,3 +37,63 @@ model Reading {
   @@unique([batchId, sign, philosopher])
   @@index([batchId, sign])
 }
+
+/// Crystal ball: important-sounding nonsense
+model CrystalBallSaying {
+  id        String   @id @default(cuid())
+  body      String
+  createdAt DateTime @default(now())
+}
+
+/// Ideal partner lines, filtered by player gender
+model IdealPartnerSaying {
+  id        String   @id @default(cuid())
+  /// male | female | any
+  gender    String
+  body      String
+  createdAt DateTime @default(now())
+
+  @@index([gender])
+}
+
+/// Magic 8-ball answers with a mean/funny twist
+model MagicEightAnswer {
+  id        String   @id @default(cuid())
+  body      String
+  /// general | romance | fitness | work | money | social
+  category  String   @default("general")
+  /// yes | no | maybe | roast
+  leaning   String   @default("maybe")
+  createdAt DateTime @default(now())
+
+  @@index([category])
+  @@index([leaning])
+}
+
+/// Rider–Waite style Major Arcana meanings for one-card draws
+model TarotCard {
+  id                 String   @id @default(cuid())
+  slug               String   @unique
+  name               String
+  /// 0–21 for Major Arcana
+  number             Int
+  /// major | wands | cups | swords | pentacles
+  arcana             String   @default("major")
+  romanNumeral       String
+  element            String?
+  keywordsUpright    String
+  keywordsReversed   String
+  uprightGeneral     String
+  reversedGeneral    String
+  uprightLove        String
+  reversedLove       String
+  uprightCareer      String
+  reversedCareer     String
+  uprightAdvice      String
+  reversedAdvice     String
+  symbolism          String
+  createdAt          DateTime @default(now())
+
+  @@index([arcana])
+  @@index([number])
+}

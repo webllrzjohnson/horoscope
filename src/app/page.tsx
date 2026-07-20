@@ -7,6 +7,7 @@ import {
 } from "@/lib/readings/pick";
 import { formatWindowLabel } from "@/lib/windows";
 import { getPhilosopher, PHILOSOPHERS } from "@/lib/philosophers";
+import { getMoonInfo } from "@/lib/moon";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +15,7 @@ export default async function Home() {
   const batch = await getCurrentBatch();
   const timeZone = process.env.SITE_TZ ?? "America/New_York";
   const todaySign = getSignForDate(new Date(), timeZone);
+  const moon = getMoonInfo(new Date());
   const todayReadings =
     batch?.readings.filter((reading) => reading.sign === todaySign.slug) ?? [];
   const ordered = PHILOSOPHERS.map((philosopher) =>
@@ -43,8 +45,8 @@ export default async function Home() {
           <p className="hero-date">{todayLabel}</p>
           <h1 className="hero-sign">{todaySign.name}</h1>
           <p className="lede">
-            Brutal truths from five philosophers. Same roast for everyone —
-            until the next window.
+            Brutal truths from five philosophers — plus real zodiac tools, moon
+            timing, and sky news.
           </p>
           <div className="hero-actions">
             <Link className="hero-cta" href={`/signs/${todaySign.slug}`}>
@@ -74,6 +76,34 @@ export default async function Home() {
         </section>
       ) : null}
 
+      <section className="utility-row" aria-label="Useful tools">
+        <Link href="/moon" className="utility-tile">
+          <span className="eyebrow">Now</span>
+          <strong>{moon.phase}</strong>
+          <span>{moon.illumination}% lit · Moon desk</span>
+        </Link>
+        <Link href="/find-sign" className="utility-tile">
+          <span className="eyebrow">Tool</span>
+          <strong>Find your sign</strong>
+          <span>Sun sign from birth date</span>
+        </Link>
+        <Link href="/guide" className="utility-tile">
+          <span className="eyebrow">Learn</span>
+          <strong>Zodiac guide</strong>
+          <span>Elements, dates, planets</span>
+        </Link>
+        <Link href="/news" className="utility-tile">
+          <span className="eyebrow">Desk</span>
+          <strong>News</strong>
+          <span>Astrology & astronomy</span>
+        </Link>
+        <Link href="/games" className="utility-tile">
+          <span className="eyebrow">Play</span>
+          <strong>Games</strong>
+          <span>Crystal ball & 8-ball</span>
+        </Link>
+      </section>
+
       <section className="sign-grid" aria-label="Zodiac signs">
         <div className="section-head">
           <h2>All signs</h2>
@@ -96,10 +126,6 @@ export default async function Home() {
           ))}
         </ul>
       </section>
-
-      <footer className="site-footer">
-        <p>Horoscope · savage philosophy, not soft affirmations</p>
-      </footer>
     </main>
   );
 }

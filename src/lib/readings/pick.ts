@@ -10,13 +10,15 @@ export function pickStable<T>(items: readonly T[], seed: string): T {
     throw new Error("Cannot pick from an empty list");
   }
 
-  let hash = 2166136261;
+let hash = 2166136261;
   for (let i = 0; i < seed.length; i += 1) {
     hash ^= seed.charCodeAt(i);
     hash = Math.imul(hash, 16777619);
   }
 
-  return items[hash % items.length]!;
+  // Math.imul is signed; force unsigned so the index is never negative.
+  const index = (hash >>> 0) % items.length;
+  return items[index]!;
 }
 
 export function formatPhilosopherAttribution(

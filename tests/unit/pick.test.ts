@@ -19,6 +19,13 @@ describe("pickStable", () => {
     );
     expect(picks.size).toBeGreaterThan(1);
   });
+
+  it("always returns a defined item even when the hash would be negative", () => {
+    const items = ["a", "b", "c"] as const;
+    for (let i = 0; i < 200; i += 1) {
+      expect(pickStable(items, `batch-${i}:leo:attr`)).toBeDefined();
+    }
+  });
 });
 
 describe("formatPhilosopherAttribution", () => {
@@ -26,5 +33,13 @@ describe("formatPhilosopherAttribution", () => {
     const line = formatPhilosopherAttribution("Nietzsche", "attr-seed");
     expect(line).toMatch(/Nietzsche/);
     expect(line.toLowerCase()).toMatch(/interpreted|delivered|perspective/);
+  });
+
+  it("never throws for typical batch seeds", () => {
+    for (let i = 0; i < 100; i += 1) {
+      expect(() =>
+        formatPhilosopherAttribution("Diogenes", `cmrlilasb0000r8o1cv6hlskb:aries:attr:${i}`),
+      ).not.toThrow();
+    }
   });
 });

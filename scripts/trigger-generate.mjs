@@ -1,7 +1,7 @@
 /**
  * Coolify Scheduled Task helper.
- * Frequency: 0 */2 * * *  (every 2 hours)
- * Command:   node scripts/trigger-generate.mjs
+ * Recommended frequency: every 2 hours, e.g. cron expression: 0 0-23/2 * * *
+ * Command: node scripts/trigger-generate.mjs
  *
  * Hits the local generate API with CRON_SECRET.
  */

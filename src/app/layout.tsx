@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Syne } from "next/font/google";
+import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
+import { buildWebsiteJsonLd, getSiteUrl, SITE_DESCRIPTION } from "@/lib/seo";
 import "./globals.css";
 
 const display = Cormorant_Garamond({
@@ -14,10 +16,16 @@ const body = Syne({
   weight: ["400", "500", "600", "700"],
 });
 
+const siteUrl = getSiteUrl();
+const websiteJsonLd = buildWebsiteJsonLd(siteUrl);
+
 export const metadata: Metadata = {
-  title: "Horoscope",
-  description:
-    "Unusual daily horoscope readings in the voices of five famous philosophers.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Horoscope",
+    template: "%s · Horoscope",
+  },
+  description: SITE_DESCRIPTION,
 };
 
 export default function RootLayout({
@@ -28,8 +36,18 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${display.variable} ${body.variable} h-full`}>
       <body className="min-h-full antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteJsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
         <div className="sky" aria-hidden="true" />
-        {children}
+        <div className="shell">
+          <SiteHeader />
+          {children}
+          <SiteFooter />
+        </div>
       </body>
     </html>
   );

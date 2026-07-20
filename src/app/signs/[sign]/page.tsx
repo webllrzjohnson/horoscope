@@ -65,6 +65,11 @@ export default async function SignPage({ params }: SignPageProps) {
             </span>
             {sign.name}
           </h1>
+          <p className="sign-blurb">{sign.blurb}</p>
+          <p className="muted">
+            {sign.element} · {sign.modality} · {sign.rulingPlanet} ·{" "}
+            <Link href={`/guide#${sign.slug}`}>Full guide entry</Link>
+          </p>
           {batch ? (
             <p className="window">
               Window ·{" "}
