@@ -1,6 +1,9 @@
 import { existsSync, statSync } from "node:fs";
 import { join } from "node:path";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
+import { TarotCardView } from "@/components/TarotCardView";
 import { MAJOR_ARCANA } from "@/lib/tarot/deck-data";
 import { getTarotArtPath } from "@/lib/tarot/art";
 import { orientationFor } from "@/lib/tarot/draw";
@@ -59,5 +62,22 @@ describe("orientationFor", () => {
   it("returns reversed fields", () => {
     expect(orientationFor(sample, "reversed").general).toBe("rg");
     expect(orientationFor(sample, "reversed").keywords).toBe("b");
+  });
+});
+
+describe("TarotCardView", () => {
+  it("keeps reversed artwork upright while preserving reversed meaning", () => {
+    const markup = renderToStaticMarkup(
+      createElement(TarotCardView, {
+        slug: "the-emperor",
+        name: "The Emperor",
+        romanNumeral: "IV",
+        orientation: "reversed",
+      }),
+    );
+
+    expect(markup).toContain("The Emperor, reversed");
+    expect(markup).toContain("the-emperor.jpg");
+    expect(markup).not.toContain("is-reversed");
   });
 });
