@@ -70,7 +70,7 @@ export function TarotGame() {
     <div className="toy-game tarot-game">
       <h2>Tarot — archetype draw</h2>
       <p className="muted">
-        Major Arcana, illustrated in-house. Ask a question, draw one card for the
+        Rider–Waite–Smith Major Arcana. Ask a question, draw one card for the
         main theme or three for a past / present / future spread.
       </p>
 

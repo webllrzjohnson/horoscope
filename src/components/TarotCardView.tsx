@@ -1,5 +1,8 @@
 "use client";
 
+import Image from "next/image";
+import { getTarotArtPath } from "@/lib/tarot/art";
+
 type TarotCardViewProps = {
   slug?: string;
   name: string;
@@ -10,7 +13,7 @@ type TarotCardViewProps = {
   className?: string;
 };
 
-const CARD_ART: Record<string, { symbol: string; scene: string }> = {
+const FALLBACK_CARD_ART: Record<string, { symbol: string; scene: string }> = {
   "the-fool": { symbol: "☼", scene: "cliff" },
   "the-magician": { symbol: "∞", scene: "altar" },
   "the-high-priestess": { symbol: "☾", scene: "veil" },
@@ -59,7 +62,8 @@ export function TarotCardView({
     );
   }
 
-  const art = slug ? CARD_ART[slug] : undefined;
+  const imagePath = getTarotArtPath(slug);
+  const fallback = slug ? FALLBACK_CARD_ART[slug] : undefined;
 
   return (
     <div
@@ -67,16 +71,32 @@ export function TarotCardView({
       role="img"
       aria-label={`${name}, ${orientation}`}
     >
-      <div className="tarot-card-face-inner">
-        <p className="tarot-roman">{romanNumeral}</p>
-        <div className={`tarot-illustration is-${art?.scene ?? "oracle"}`} aria-hidden="true">
-          <span>{art?.symbol ?? "✧"}</span>
+      {imagePath ? (
+        <Image
+          src={imagePath}
+          alt=""
+          width={360}
+          height={630}
+          sizes={large ? "(max-width: 640px) 72vw, 264px" : "184px"}
+          className="tarot-card-art"
+          aria-hidden="true"
+          priority={large}
+        />
+      ) : (
+        <div className="tarot-card-face-inner tarot-card-fallback">
+          <p className="tarot-roman">{romanNumeral}</p>
+          <div
+            className={`tarot-illustration is-${fallback?.scene ?? "oracle"}`}
+            aria-hidden="true"
+          >
+            <span>{fallback?.symbol ?? "✧"}</span>
+          </div>
+          <p className="tarot-card-name">{name}</p>
+          <p className="tarot-orientation-badge">
+            {orientation === "reversed" ? "Reversed" : "Upright"}
+          </p>
         </div>
-        <p className="tarot-card-name">{name}</p>
-        <p className="tarot-orientation-badge">
-          {orientation === "reversed" ? "Reversed" : "Upright"}
-        </p>
-      </div>
+      )}
     </div>
   );
 }

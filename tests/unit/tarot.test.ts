@@ -1,5 +1,8 @@
+import { existsSync, statSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { MAJOR_ARCANA } from "@/lib/tarot/deck-data";
+import { getTarotArtPath } from "@/lib/tarot/art";
 import { orientationFor } from "@/lib/tarot/draw";
 import type { TarotCard } from "@/generated/prisma/client";
 
@@ -17,6 +20,19 @@ describe("tarot deck data", () => {
       expect(card.number).toBe(index);
       expect(card.uprightGeneral.length).toBeGreaterThan(40);
       expect(card.reversedGeneral.length).toBeGreaterThan(40);
+    });
+  });
+
+  it("has a public-domain Rider–Waite–Smith artwork file for every card", () => {
+    MAJOR_ARCANA.forEach((card) => {
+      const publicPath = getTarotArtPath(card.slug);
+      expect(publicPath).toBe(`/tarot/rws-major-arcana/${card.slug}.jpg`);
+
+      const localPath = join(process.cwd(), "public", publicPath!.replace(/^\//, ""));
+      expect(existsSync(localPath), `${card.slug} artwork is missing`).toBe(true);
+      expect(statSync(localPath).size, `${card.slug} artwork is too small`).toBeGreaterThan(
+        5_000,
+      );
     });
   });
 });
