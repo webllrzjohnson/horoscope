@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Syne } from "next/font/google";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
-import { buildWebsiteJsonLd, getSiteUrl, SITE_DESCRIPTION } from "@/lib/seo";
+import {
+  buildWebsiteJsonLd,
+  getSiteUrl,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+} from "@/lib/seo";
 import "./globals.css";
 
 const display = Cormorant_Garamond({
@@ -22,8 +27,8 @@ const websiteJsonLd = buildWebsiteJsonLd(siteUrl);
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Horoscope",
-    template: "%s · Horoscope",
+    default: SITE_NAME,
+    template: `%s · ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
 };

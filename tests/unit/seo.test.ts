@@ -1,23 +1,22 @@
 import { describe, expect, it } from "vitest";
-import { buildWebsiteJsonLd, getSiteUrl } from "@/lib/seo";
+import { buildWebsiteJsonLd, getSiteUrl, SITE_DESCRIPTION, SITE_NAME } from "@/lib/seo";
 
 describe("seo helpers", () => {
   it("normalizes the configured site URL without a trailing slash", () => {
     expect(getSiteUrl("https://example.com/")).toBe("https://example.com");
   });
 
-  it("builds website JSON-LD for Horoscope", () => {
+  it("builds website JSON-LD for Philosopher’s Horoscope", () => {
     expect(buildWebsiteJsonLd("https://example.com")).toEqual({
       "@context": "https://schema.org",
       "@type": "WebSite",
-      name: "Horoscope",
+      name: SITE_NAME,
       url: "https://example.com",
-      description:
-        "Daily philosopher-voiced horoscopes, zodiac guides, moon phases, astrology news, and playful divination games.",
+      description: SITE_DESCRIPTION,
       inLanguage: "en-US",
       publisher: {
         "@type": "Organization",
-        name: "Horoscope",
+        name: SITE_NAME,
         url: "https://example.com",
       },
     });

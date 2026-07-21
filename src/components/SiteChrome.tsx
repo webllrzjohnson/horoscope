@@ -13,7 +13,7 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <Link href="/" className="site-logo">
-        Horoscope
+        Philosopher’s Horoscope
       </Link>
       <nav className="site-nav" aria-label="Primary">
         {NAV.map((item) => (
@@ -30,8 +30,8 @@ export function SiteFooter() {
   return (
     <footer className="site-footer-bar">
       <div className="footer-brand">
-        <p className="site-logo">Horoscope</p>
-        <p>Philosopher-voiced daily readings, plus practical sky tools.</p>
+        <p className="site-logo">Philosopher’s Horoscope</p>
+        <p>Dead thinkers roast your sign every two hours.</p>
       </div>
       <div className="footer-cols">
         <div>

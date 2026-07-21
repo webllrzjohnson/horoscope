@@ -4,7 +4,7 @@ import { SIGNS } from "@/lib/signs";
 
 export const metadata: Metadata = {
   title: "Sitemap",
-  description: "All public pages on Horoscope.",
+  description: "All public pages on Philosopher’s Horoscope.",
 };
 
 const STATIC_LINKS = [

@@ -179,7 +179,7 @@ Resolved on spec approval (2026-07-14):
 
 1. **Timezone:** `America/New_York`
 2. **Home layout:** Featured current-window teaser + 12-sign grid
-3. **Brand name:** Placeholder “Horoscope” until a final name is chosen
+3. **Brand name:** Philosopher’s Horoscope
 
 ---
 

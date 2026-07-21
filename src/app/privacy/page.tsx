@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy",
-  description: "How Horoscope handles information on this site.",
+  description: "How Philosopher’s Horoscope handles information on this site.",
 };
 
 export default function PrivacyPage() {

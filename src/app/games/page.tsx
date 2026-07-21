@@ -13,8 +13,8 @@ export default function GamesPage() {
       <p className="brand-mark">Play</p>
       <h1 className="page-title">Cosmic party games</h1>
       <p className="lede wide">
-        Absurdity, chance, and a serious one-card tarot draw when you want the
-        archetypes without the fluff.
+        Absurdity, chance, and a serious Major Arcana tarot spread when you want
+        the archetypes without the fluff.
       </p>
       <GamesArena />
     </main>

@@ -232,6 +232,67 @@ a:hover {
   text-decoration: underline;
 }
 
+.philosopher-preview,
+.philosopher-readings {
+  margin-top: 3rem;
+}
+
+.section-head.compact {
+  margin-bottom: 1rem;
+}
+
+.philosopher-strip {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.philosopher-chip {
+  min-height: 9rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg-elevated) 62%, transparent);
+  text-decoration: none;
+  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+
+.philosopher-chip:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg-elevated));
+}
+
+.philosopher-chip span {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--ink);
+}
+
+.philosopher-chip small {
+  display: block;
+  margin-top: 0.65rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.reading-stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.philosopher-card {
+  padding: 1.4rem 0;
+  scroll-margin-top: 6rem;
+}
+
+.philosopher-card h3 {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 3vw, 1.9rem);
+  font-weight: 500;
+}
+
 .section-head {
   margin-bottom: 1.5rem;
 }
@@ -1327,7 +1388,11 @@ a:hover {
 
 /* —— Tarot —— */
 .tarot-game {
-  max-width: 44rem;
+  max-width: 58rem;
+}
+
+.tarot-question {
+  margin-top: 1.25rem;
 }
 
 .tarot-stage {
@@ -1367,6 +1432,15 @@ a:hover {
   position: relative;
   z-index: 1;
   padding: 1.5rem 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, auto));
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.tarot-stage-inner.tarot-count-1 {
+  grid-template-columns: 1fr;
 }
 
 .tarot-card {
@@ -1437,12 +1511,37 @@ a:hover {
   font-family: var(--font-display);
   font-size: 1.15rem;
   letter-spacing: 0.18em;
-  color: #6e5a3a;
+  color: #5f4728;
+  font-weight: 700;
 }
 
-.tarot-sigil-wrap {
+.tarot-illustration {
+  width: 78%;
+  aspect-ratio: 0.82;
   display: grid;
   place-items: center;
+  border: 1px solid rgba(26, 20, 36, 0.16);
+  border-radius: 999px 999px 1.2rem 1.2rem;
+  background:
+    radial-gradient(circle at 50% 24%, rgba(210, 181, 107, 0.35), transparent 25%),
+    linear-gradient(180deg, rgba(26, 20, 36, 0.07), rgba(210, 181, 107, 0.16));
+  box-shadow: inset 0 0 0 0.35rem rgba(255, 248, 236, 0.35);
+}
+
+.tarot-illustration span {
+  font-family: var(--font-display);
+  font-size: clamp(3.1rem, 9vw, 5.6rem);
+  line-height: 1;
+  color: #4f3a26;
+  text-shadow: 0 8px 22px rgba(79, 58, 38, 0.2);
+}
+
+.tarot-card:not(.is-large) .tarot-illustration span {
+  font-size: 3rem;
+}
+
+.tarot-card:not(.is-large) .tarot-card-name {
+  font-size: 1.05rem;
 }
 
 .tarot-sigil {
@@ -1460,9 +1559,11 @@ a:hover {
   margin: 0;
   font-family: var(--font-display);
   font-size: clamp(1.15rem, 3.5vw, 1.55rem);
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: 0.04em;
   line-height: 1.15;
+  color: #3f2d18;
+  text-shadow: 0 1px 0 rgba(255, 248, 236, 0.7);
 }
 
 .tarot-orientation-badge {
@@ -1470,7 +1571,8 @@ a:hover {
   font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #7a6550;
+  color: #5f4728;
+  font-weight: 700;
 }
 
 .tarot-card.is-shuffling {
@@ -1527,6 +1629,41 @@ a:hover {
   font-size: 1.02rem;
 }
 
+.tarot-card-reading {
+  padding: 1.2rem 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.tarot-card-reading h4 {
+  margin: 0.2rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 3vw, 1.9rem);
+  font-weight: 500;
+}
+
+.tarot-meaning-grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.tarot-meaning-grid h5 {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-soft);
+  font-weight: 600;
+}
+
+.tarot-meaning-grid p {
+  margin: 0;
+  color: color-mix(in srgb, var(--ink) 88%, var(--muted));
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+
 .tarot-footnote {
   margin: 0.25rem 0 0;
   color: var(--muted);
@@ -1572,6 +1709,14 @@ a:hover {
 @media (max-width: 640px) {
   .tarot-stage {
     min-height: 22rem;
+  }
+
+  .tarot-stage-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .tarot-meaning-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1836,6 +1981,10 @@ a:hover {
   .site-nav {
     justify-content: flex-start;
   }
+
+  .philosopher-strip {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 @media (max-width: 800px) {
@@ -1872,6 +2021,7 @@ a:hover {
 
   .sign-grid ul,
   .utility-row,
+  .philosopher-strip,
   .link-list.two-col {
     grid-template-columns: 1fr;
     columns: 1;

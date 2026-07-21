@@ -1,11 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ShareButton } from "@/components/ShareButton";
-import { getPhilosopher, PHILOSOPHERS } from "@/lib/philosophers";
-import {
-  formatPhilosopherAttribution,
-  pickStable,
-} from "@/lib/readings/pick";
+import { PHILOSOPHERS } from "@/lib/philosophers";
+import { formatPhilosopherAttribution } from "@/lib/readings/pick";
 import { getSignReadings } from "@/lib/readings/query";
 import { formatSignDates, getSign, isSignSlug, SIGNS } from "@/lib/signs";
 import { formatWindowLabel } from "@/lib/windows";
@@ -31,17 +28,10 @@ export default async function SignPage({ params }: SignPageProps) {
   }
 
   const { batch, readings } = data;
-  const ordered = PHILOSOPHERS.map((philosopher) =>
-    readings.find((reading) => reading.philosopher === philosopher.id),
-  ).filter((reading): reading is NonNullable<typeof reading> => Boolean(reading));
-
-  const seed = `${batch?.id ?? "none"}:${sign.slug}`;
-  const reading = ordered.length > 0 ? pickStable(ordered, seed) : null;
-  const philosopher = reading ? getPhilosopher(reading.philosopher) : null;
-  const attribution =
-    philosopher && reading
-      ? formatPhilosopherAttribution(philosopher.name, `${seed}:attr`)
-      : null;
+  const ordered = PHILOSOPHERS.map((philosopher) => {
+    const reading = readings.find((entry) => entry.philosopher === philosopher.id);
+    return reading ? { philosopher, reading } : null;
+  }).filter((entry): entry is NonNullable<typeof entry> => Boolean(entry));
 
   const signIndex = SIGNS.findIndex((entry) => entry.slug === sign.slug);
   const prev = SIGNS[(signIndex - 1 + SIGNS.length) % SIGNS.length];
@@ -50,14 +40,14 @@ export default async function SignPage({ params }: SignPageProps) {
   return (
     <main className="page sign-page">
       <nav className="crumb">
-        <Link href="/">Horoscope</Link>
+        <Link href="/">Philosopher’s Horoscope</Link>
         <span aria-hidden="true">/</span>
         <span>{sign.name}</span>
       </nav>
 
       <header className="sign-header">
         <div className="sign-header-copy">
-          <p className="brand-mark">Horoscope</p>
+          <p className="brand-mark">Philosopher’s Horoscope</p>
           <p className="hero-date">{formatSignDates(sign)}</p>
           <h1>
             <span className="sign-title-glyph" aria-hidden="true">
@@ -82,32 +72,55 @@ export default async function SignPage({ params }: SignPageProps) {
         </div>
       </header>
 
-      {!reading || !attribution ? (
+      {ordered.length === 0 ? (
         <p className="empty">
           Readings will appear here after the next generate run.
         </p>
       ) : (
-        <article className="reading featured-reading">
-          <p className="attribution">{attribution}</p>
-          <p className="body">{reading.body}</p>
-          <ul className="meta">
-            <li>
-              <span className="meta-label">Lucky number</span>
-              <span className="meta-value">{reading.luckyNumber}</span>
-            </li>
-            <li>
-              <span className="meta-label">Lucky color</span>
-              <span className="meta-value meta-color">
-                <span
-                  className="swatch"
-                  style={{ background: reading.luckyColorHex }}
-                  aria-hidden="true"
-                />
-                {reading.luckyColorName}
-              </span>
-            </li>
-          </ul>
-        </article>
+        <section className="philosopher-readings" aria-label={`${sign.name} philosopher readings`}>
+          <div className="section-head compact">
+            <h2>Today’s five philosopher readings</h2>
+            <p>
+              Same sign, five hostile witnesses. Choose the worldview that hurts most usefully.
+            </p>
+          </div>
+          <div className="reading-stack">
+            {ordered.map(({ philosopher, reading }) => {
+              const attribution = formatPhilosopherAttribution(
+                philosopher.name,
+                `${batch?.id ?? "none"}:${sign.slug}:${philosopher.id}:attr`,
+              );
+              return (
+                <article
+                  key={reading.id}
+                  id={philosopher.id}
+                  className="reading featured-reading philosopher-card"
+                >
+                  <p className="attribution">{attribution}</p>
+                  <h3>{philosopher.name} reads {sign.name}</h3>
+                  <p className="body">{reading.body}</p>
+                  <ul className="meta">
+                    <li>
+                      <span className="meta-label">Lucky number</span>
+                      <span className="meta-value">{reading.luckyNumber}</span>
+                    </li>
+                    <li>
+                      <span className="meta-label">Lucky color</span>
+                      <span className="meta-value meta-color">
+                        <span
+                          className="swatch"
+                          style={{ background: reading.luckyColorHex }}
+                          aria-hidden="true"
+                        />
+                        {reading.luckyColorName}
+                      </span>
+                    </li>
+                  </ul>
+                </article>
+              );
+            })}
+          </div>
+        </section>
       )}
 
       <nav className="sign-pager" aria-label="Adjacent signs">

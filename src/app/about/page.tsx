@@ -3,7 +3,8 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "What Horoscope is, who it is for, and how readings are made.",
+  description:
+    "What Philosopher’s Horoscope is, who it is for, and how readings are made.",
 };
 
 export default function AboutPage() {
@@ -12,10 +13,10 @@ export default function AboutPage() {
       <p className="brand-mark">About</p>
       <h1 className="page-title">A real astrology desk with sharper teeth</h1>
       <p className="lede wide">
-        Horoscope pairs classic tropical astrology tools — Sun signs, elements,
-        moon phases — with daily readings written in the voices of five
-        philosophers. The tone is brutal and sarcastic on purpose. The sky
-        tools are meant to be useful.
+        Philosopher’s Horoscope pairs classic tropical astrology tools — Sun
+        signs, elements, moon phases — with daily readings written as dead
+        philosophers roasting your chart. The tone is brutal, sarcastic, and
+        shareable on purpose. The sky tools are meant to be useful.
       </p>
 
       <section className="prose-block">
@@ -33,9 +34,10 @@ export default function AboutPage() {
         <h2>How readings work</h2>
         <p>
           Every two hours we generate a fresh batch for all twelve signs across
-          five philosopher personas, then pick one voice per sign to display.
-          Lucky number and color ride along as light metadata — entertainment,
-          not destiny math.
+          five philosopher personas. Every sign gets every voice, so you can
+          decide whether Nietzsche, Diogenes, Schopenhauer, Machiavelli, or
+          Voltaire wounds you most accurately. Lucky number and color ride along
+          as light metadata — entertainment, not destiny math.
         </p>
       </section>
 

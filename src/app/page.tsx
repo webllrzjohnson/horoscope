@@ -41,16 +41,16 @@ export default async function Home() {
     <main className="page home">
       <header className="hero">
         <div className="hero-copy">
-          <p className="brand-mark">Horoscope</p>
+          <p className="brand-mark">Philosopher’s Horoscope</p>
           <p className="hero-date">{todayLabel}</p>
           <h1 className="hero-sign">{todaySign.name}</h1>
           <p className="lede">
-            Brutal truths from five philosophers — plus real zodiac tools, moon
-            timing, and sky news.
+            Savage zodiac readings from Nietzsche, Diogenes, Schopenhauer,
+            Machiavelli, and Voltaire — updated every two hours.
           </p>
           <div className="hero-actions">
             <Link className="hero-cta" href={`/signs/${todaySign.slug}`}>
-              Read {todaySign.name}
+              Read all 5 takes
             </Link>
             {batch ? (
               <p className="window quiet">
@@ -73,6 +73,32 @@ export default async function Home() {
           <Link className="text-link" href={`/signs/${todaySign.slug}`}>
             Open full reading
           </Link>
+        </section>
+      ) : null}
+
+      {ordered.length > 0 ? (
+        <section className="philosopher-preview" aria-label="Today’s philosophers">
+          <div className="section-head compact">
+            <h2>Five dead philosophers, one unlucky sign</h2>
+            <p>
+              Pick the thinker you trust least. They all have opinions about {todaySign.name}.
+            </p>
+          </div>
+          <div className="philosopher-strip">
+            {ordered.map((reading) => {
+              const voice = getPhilosopher(reading.philosopher);
+              return (
+                <Link
+                  key={reading.id}
+                  href={`/signs/${todaySign.slug}#${voice.id}`}
+                  className="philosopher-chip"
+                >
+                  <span>{voice.name}</span>
+                  <small>{reading.body.split(". ")[0]}.</small>
+                </Link>
+              );
+            })}
+          </div>
         </section>
       ) : null}
 

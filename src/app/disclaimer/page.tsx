@@ -3,7 +3,8 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Disclaimer",
-  description: "Entertainment and educational disclaimer for Horoscope.",
+  description:
+    "Entertainment and educational disclaimer for Philosopher’s Horoscope.",
 };
 
 export default function DisclaimerPage() {
@@ -12,8 +13,8 @@ export default function DisclaimerPage() {
       <p className="brand-mark">Disclaimer</p>
       <h1 className="page-title">Entertainment &amp; education only</h1>
       <p className="lede wide">
-        Horoscope is for entertainment, reflection, and general astrology
-        education. It is not a substitute for professional advice.
+        Philosopher’s Horoscope is for entertainment, reflection, and general
+        astrology education. It is not a substitute for professional advice.
       </p>
 
       <section className="prose-block">
