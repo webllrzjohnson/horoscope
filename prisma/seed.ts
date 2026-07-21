@@ -1,7 +1,9 @@
 import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
+import { createLocalOfflineReadings } from "../src/lib/readings/local";
 import { MAJOR_ARCANA } from "../src/lib/tarot/deck-data";
+import { getWindowForInstant } from "../src/lib/windows";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL!,
@@ -452,13 +454,40 @@ async function reseedTarot() {
   });
 }
 
+async function seedLocalReadings() {
+  const timeZone = process.env.SITE_TZ ?? "America/New_York";
+  const window = getWindowForInstant(new Date(), timeZone);
+  const readings = createLocalOfflineReadings();
+
+  await prisma.batch.deleteMany({ where: { windowStart: window.windowStart } });
+
+  const batch = await prisma.batch.create({
+    data: {
+      windowStart: window.windowStart,
+      windowEnd: window.windowEnd,
+      providerMeta: {
+        primary: "local-offline",
+        fallbackUsed: false,
+        providersSeen: ["local-offline"],
+      },
+      readings: {
+        create: readings,
+      },
+    },
+    include: { readings: true },
+  });
+
+  return batch.readings.length;
+}
+
 async function main() {
   await reseedCrystal();
   await reseedPartner();
   await reseedEight();
   await reseedTarot();
+  const readingCount = await seedLocalReadings();
   console.log(
-    `Reseeded games: crystal=${CRYSTAL_BALL.length}, partner=${IDEAL_PARTNER_MALE.length + IDEAL_PARTNER_FEMALE.length + IDEAL_PARTNER_ANY.length}, eight=${MAGIC_EIGHT.length}, tarot=${MAJOR_ARCANA.length}`,
+    `Reseeded games: crystal=${CRYSTAL_BALL.length}, partner=${IDEAL_PARTNER_MALE.length + IDEAL_PARTNER_FEMALE.length + IDEAL_PARTNER_ANY.length}, eight=${MAGIC_EIGHT.length}, tarot=${MAJOR_ARCANA.length}, readings=${readingCount}`,
   );
 }
 
