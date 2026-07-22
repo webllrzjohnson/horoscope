@@ -5,7 +5,8 @@ import {
   formatPhilosopherAttribution,
   pickStable,
 } from "@/lib/readings/pick";
-import { formatWindowLabel } from "@/lib/windows";
+import { buildReadingPreviewExcerpt } from "@/lib/readings/preview";
+import { formatFreshnessLabel } from "@/lib/windows";
 import { getPhilosopher, PHILOSOPHERS } from "@/lib/philosophers";
 import { getMoonInfo } from "@/lib/moon";
 
@@ -54,7 +55,7 @@ export default async function Home() {
             </Link>
             {batch ? (
               <p className="window quiet">
-                {formatWindowLabel(batch.windowStart, batch.windowEnd, timeZone)}
+                {formatFreshnessLabel(batch.windowStart, batch.windowEnd, timeZone)}
               </p>
             ) : (
               <p className="window quiet">Awaiting first generate run</p>
@@ -87,14 +88,17 @@ export default async function Home() {
           <div className="philosopher-strip">
             {ordered.map((reading) => {
               const voice = getPhilosopher(reading.philosopher);
+              const excerpt = buildReadingPreviewExcerpt(reading.body, todaySign.name);
               return (
                 <Link
                   key={reading.id}
                   href={`/signs/${todaySign.slug}#${voice.id}`}
                   className="philosopher-chip"
                 >
-                  <span>{voice.name}</span>
-                  <small>{reading.body.split(". ")[0]}.</small>
+                  <span className="chip-kicker">Read the roast</span>
+                  <strong>{voice.name}</strong>
+                  <small>“{excerpt}”</small>
+                  <em>Open {voice.name}’s take →</em>
                 </Link>
               );
             })}
@@ -120,8 +124,8 @@ export default async function Home() {
         </Link>
         <Link href="/news" className="utility-tile">
           <span className="eyebrow">Desk</span>
-          <strong>News</strong>
-          <span>Astrology & astronomy</span>
+          <strong>Sky Desk</strong>
+          <span>Cosmic news, lightly insulted</span>
         </Link>
         <Link href="/games" className="utility-tile">
           <span className="eyebrow">Play</span>

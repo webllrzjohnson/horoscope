@@ -41,4 +41,25 @@ describe("createLocalOfflineReadings", () => {
     expect(bodyFor("machiavelli")).toMatch(/power|court|strategy|appearance/i);
     expect(bodyFor("voltaire")).toMatch(/superstition|vanity|reason|absurd/i);
   });
+
+  it("does not reuse the same guidance clause across philosophers for one sign", () => {
+    const readings = createLocalOfflineReadings();
+    const repeatedClauses = [
+      "feel the feeling without appointing it prime minister",
+      "protect the boundary, not the melodrama around it",
+      "let memory testify once, then dismiss the court",
+    ];
+
+    for (const sign of SIGNS) {
+      const signText = readings
+        .filter((reading) => reading.sign === sign.slug)
+        .map((reading) => reading.body)
+        .join("\n");
+
+      for (const clause of repeatedClauses) {
+        const count = signText.split(clause).length - 1;
+        expect(count).toBeLessThanOrEqual(1);
+      }
+    }
+  });
 });

@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { PhilosopherQuoteActions } from "@/components/PhilosopherQuoteActions";
 import { ShareButton } from "@/components/ShareButton";
 import { PHILOSOPHERS } from "@/lib/philosophers";
 import { formatPhilosopherAttribution } from "@/lib/readings/pick";
 import { getSignReadings } from "@/lib/readings/query";
 import { formatSignDates, getSign, isSignSlug, SIGNS } from "@/lib/signs";
-import { formatWindowLabel } from "@/lib/windows";
+import { formatFreshnessLabel } from "@/lib/windows";
 
 export const dynamic = "force-dynamic";
 
@@ -62,8 +63,7 @@ export default async function SignPage({ params }: SignPageProps) {
           </p>
           {batch ? (
             <p className="window">
-              Window ·{" "}
-              {formatWindowLabel(batch.windowStart, batch.windowEnd, timeZone)}
+              {formatFreshnessLabel(batch.windowStart, batch.windowEnd, timeZone)}
             </p>
           ) : (
             <p className="window">No batch available yet.</p>
@@ -98,7 +98,17 @@ export default async function SignPage({ params }: SignPageProps) {
                 >
                   <p className="attribution">{attribution}</p>
                   <h3>{philosopher.name} reads {sign.name}</h3>
-                  <p className="body">{reading.body}</p>
+                  <div className="quote-card-preview" aria-label={`${philosopher.name} quote card`}>
+                    <span>{philosopher.name} reads {sign.name}</span>
+                    <blockquote>“{reading.body}”</blockquote>
+                    <small>Philosopher’s Horoscope</small>
+                  </div>
+                  <PhilosopherQuoteActions
+                    philosopherName={philosopher.name}
+                    signName={sign.name}
+                    body={reading.body}
+                    anchorId={philosopher.id}
+                  />
                   <ul className="meta">
                     <li>
                       <span className="meta-label">Lucky number</span>

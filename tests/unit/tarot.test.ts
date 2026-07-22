@@ -66,7 +66,7 @@ describe("orientationFor", () => {
 });
 
 describe("TarotCardView", () => {
-  it("keeps reversed artwork upright while preserving reversed meaning", () => {
+  it("visually inverts reversed artwork while preserving reversed meaning", () => {
     const markup = renderToStaticMarkup(
       createElement(TarotCardView, {
         slug: "the-emperor",
@@ -78,6 +78,6 @@ describe("TarotCardView", () => {
 
     expect(markup).toContain("The Emperor, reversed");
     expect(markup).toContain("the-emperor.jpg");
-    expect(markup).not.toContain("is-reversed");
+    expect(markup).toContain("is-reversed");
   });
 });

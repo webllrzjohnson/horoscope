@@ -67,7 +67,7 @@ export function TarotCardView({
 
   return (
     <div
-      className={`tarot-card tarot-card-face ${large ? "is-large" : ""} ${className ?? ""}`}
+      className={`tarot-card tarot-card-face ${orientation === "reversed" ? "is-reversed" : ""} ${large ? "is-large" : ""} ${className ?? ""}`}
       role="img"
       aria-label={`${name}, ${orientation}`}
     >

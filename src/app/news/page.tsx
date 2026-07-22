@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getNewsFeed } from "@/lib/news";
+import { getNewsFeed, getSkyDeskAside } from "@/lib/news";
 
 export const metadata: Metadata = {
-  title: "News",
-  description: "Astrology explainers and astronomy headlines.",
+  title: "Sky Desk",
+  description: "Astronomy headlines, astrology explainers, and philosophical contempt for cosmic panic.",
 };
 
 export const dynamic = "force-dynamic";
@@ -14,11 +14,11 @@ export default async function NewsPage() {
 
   return (
     <main className="page prose-page">
-      <p className="brand-mark">News</p>
-      <h1 className="page-title">Astrology &amp; sky news</h1>
+      <p className="brand-mark">Sky Desk</p>
+      <h1 className="page-title">Cosmic news, lightly insulted</h1>
       <p className="lede wide">
-        Live astronomy headlines plus desk explainers on signs, cycles, and
-        skywatching. External stories open on their publishers&apos; sites.
+        Astronomy headlines, astrology explainers, and occasional philosophical
+        contempt for cosmic panic. External stories open on their publishers&apos; sites.
       </p>
       <p className="muted">
         {liveCount > 0
@@ -42,6 +42,7 @@ export default async function NewsPage() {
               )}
             </h2>
             <p>{item.summary}</p>
+            <p className="news-aside">{getSkyDeskAside(item.category)}</p>
           </article>
         ))}
       </div>

@@ -27,21 +27,29 @@ const SIGN_TASKS: Record<Sign["element"], readonly string[]> = {
     "pick one brave act and stop trying to sell tickets to it",
     "burn the excuse, not the bridge",
     "move first, brag later, revise privately",
+    "spend the spark on action instead of theatre",
+    "turn the dramatic entrance into actual momentum",
   ],
   earth: [
     "make the plan survive contact with an actual calendar",
     "choose the practical road before your pride builds a toll booth",
     "turn one stubborn preference into proof",
+    "let the spreadsheet insult your fantasy until it improves",
+    "build the useful thing before polishing the excuse",
   ],
   air: [
     "close one loop before opening another debate society",
     "say the useful sentence without decorating it like a parade float",
     "let one thought become an action before it breeds cousins",
+    "retire one theory by forcing it to do a real job",
+    "make clarity arrive before cleverness starts charging rent",
   ],
   water: [
     "feel the feeling without appointing it prime minister",
     "protect the boundary, not the melodrama around it",
     "let memory testify once, then dismiss the court",
+    "name the ache without building it a cathedral",
+    "offer tenderness without handing it the keys",
   ],
 };
 
@@ -50,16 +58,22 @@ const SIGN_TEMPTATIONS: Record<Sign["modality"], readonly string[]> = {
     "starting another campaign before finishing the first skirmish",
     "calling urgency a personality",
     "mistaking control for leadership",
+    "confusing motion with a mandate from heaven",
+    "declaring a new era because Tuesday bored you",
   ],
   fixed: [
     "calling stubbornness integrity because it has better lighting",
     "defending a routine that has clearly expired",
     "guarding the throne even after the kingdom moved",
+    "framing inertia as loyalty to tradition",
+    "polishing a cage and calling it standards",
   ],
   mutable: [
     "collecting options until choice dies of neglect",
     "changing the subject and calling it adaptability",
     "turning flexibility into elegant avoidance",
+    "mistaking every open door for a personality",
+    "auditioning futures instead of choosing one scene",
   ],
 };
 

@@ -3,6 +3,56 @@ import { CURATED_NEWS, type NewsItem } from "./curated";
 const NASA_RSS = "https://www.nasa.gov/rss/dyn/breaking_news.rss";
 const SPACE_RSS = "https://www.space.com/feeds/all";
 
+const SKY_DESK_KEYWORDS = [
+  "astronomy",
+  "asteroid",
+  "comet",
+  "eclipse",
+  "full moon",
+  "jupiter",
+  "lunar",
+  "mars",
+  "meteor",
+  "moon",
+  "nasa",
+  "night sky",
+  "planet",
+  "saturn",
+  "skywatch",
+  "solar",
+  "star",
+  "telescope",
+] as const;
+
+const SKY_DESK_EXCLUSIONS = [
+  "blu-ray",
+  "box office",
+  "collector",
+  "movie",
+  "sci-fi",
+  "sequel",
+  "streaming",
+  "trailer",
+] as const;
+
+export function isSkyDeskRelevantHeadline(title: string): boolean {
+  const normalized = title.toLowerCase();
+  if (SKY_DESK_EXCLUSIONS.some((term) => normalized.includes(term))) {
+    return false;
+  }
+  return SKY_DESK_KEYWORDS.some((term) => normalized.includes(term));
+}
+
+export function getSkyDeskAside(category: NewsItem["category"]): string {
+  if (category === "astrology") {
+    return "Voltaire would call this useful only after it survives a joke.";
+  }
+  if (category === "skywatch") {
+    return "Diogenes approves: at least the sky is free and hard to monetize badly.";
+  }
+  return "Cosmic paperwork from the sky desk; interpret calmly, then go outside.";
+}
+
 function stripHtml(value: string): string {
   return value
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
@@ -48,6 +98,8 @@ function parseRssItems(
       : new Date().toISOString();
 
     if (!title || !link) continue;
+
+    if (!isSkyDeskRelevantHeadline(title)) continue;
 
     items.push({
       id: `${source}-${index}-${publishedAt}`,

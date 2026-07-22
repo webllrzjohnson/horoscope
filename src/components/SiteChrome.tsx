@@ -5,7 +5,7 @@ const NAV = [
   { href: "/guide", label: "Guide" },
   { href: "/find-sign", label: "Find sign" },
   { href: "/moon", label: "Moon" },
-  { href: "/news", label: "News" },
+  { href: "/news", label: "Sky Desk" },
   { href: "/games", label: "Games" },
 ] as const;
 
@@ -39,7 +39,7 @@ export function SiteFooter() {
           <Link href="/guide">Zodiac guide</Link>
           <Link href="/find-sign">Find your sign</Link>
           <Link href="/moon">Moon phase</Link>
-          <Link href="/news">News</Link>
+          <Link href="/news">Sky Desk</Link>
           <Link href="/games">Games</Link>
         </div>
         <div>

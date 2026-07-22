@@ -108,3 +108,26 @@ export function formatWindowLabel(
 
   return `${fmt.format(windowStart)} – ${fmt.format(windowEnd)}`;
 }
+
+export function formatFreshnessLabel(
+  windowStart: Date,
+  windowEnd: Date,
+  timeZone: string = process.env.SITE_TZ ?? "America/New_York",
+): string {
+  const dateFmt = new Intl.DateTimeFormat("en-US", {
+    timeZone,
+    month: "short",
+    day: "numeric",
+  });
+  const timeFmt = new Intl.DateTimeFormat("en-US", {
+    timeZone,
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  });
+  const normalizeZone = (value: string) => value.replace(/\bE[DS]T\b/g, "ET");
+  const startTime = normalizeZone(timeFmt.format(windowStart)).replace(/\s[\w+/-]+$/, "");
+  const endTime = normalizeZone(timeFmt.format(windowEnd));
+
+  return `Current batch · ${dateFmt.format(windowStart)}, ${startTime}–${endTime} · Next roast refreshes at ${endTime}`;
+}
